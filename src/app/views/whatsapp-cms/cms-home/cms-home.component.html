@@ -1,0 +1,48 @@
+<div class="fade-in">
+    <c-card>
+      <c-card-body>
+        <div class="container mt-2">
+          <div class="d-flex justify-content-between">
+              <h4>{{title}}</h4>
+              <button cButton color="primary" variant="outline" routerLink="create">Create New</button>
+          </div>
+        </div>
+        <div class="divider my-2"></div>
+      
+        <!-- simple-table.component.html -->
+        <table cTable hover>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col" style="width: 40%;">Set Name</th>
+                <th scope="col" style="width: 10%;">Created At</th>
+                <th scope="col" style="width: 10%;">Updated At</th>
+                <th scope="col" style="text-align: center;">Status</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of tableData  | paginate: { itemsPerPage: itemSize, currentPage: pageParams.page }; let i = index">
+                <th scope="row">{{ itemSize*(pageParams.page-1)+i+1}}</th>
+                <td>{{ data.setName }}</td>
+                <td style="font-size: 12px;">{{ data.createdAt | date :'medium'}}</td>
+                <td style="font-size: 12px;">{{ data.updatedAt | date :'medium'}}</td>
+                <td class="text-center"><c-badge [color]="getBadgeColor(data.status)">{{data.status}}</c-badge></td>
+                <td class="text-center">
+                <button cTooltip="View" cButton class="me-1" size="sm" variant="ghost" color="secondary" routerLink="view/{{data?._id}}">
+                    <svg cIcon name="cil-notes"></svg></button>
+                <button cTooltip="Edit" cButton class="me-1" size="sm" variant="ghost" color="secondary" routerLink="edit/{{data?._id}}">
+                    <svg cIcon  name="cil-pen"></svg></button>
+                <button cTooltip="delete" cButton class="me-1" size="sm" variant="ghost" color="danger" (click)="deleteItem(data)"
+                
+                >
+                    <svg cIcon name="cil-trash"></svg></button>
+                </td>
+            </tr>
+        </tbody>
+       
+        </table>      
+        <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>  
+      </c-card-body>
+    </c-card>
+  </div>

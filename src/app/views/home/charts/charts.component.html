@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-between">
+    <div class="input-group">
+        <ng-select [items]="sets" 
+                    bindLabel="setName" 
+                    bindValue="_id" 
+                    [(ngModel)]="selectedSet"
+                    [multiple]="true"
+                    (add)="setSelected($event)"
+                    (remove)="removeSelected($event)"
+                    placeholder="Select Set"
+                    >
+        </ng-select>
+    </div>
+    <button cButton color="primary" variant="ghost" style="height: 45px" (click)="downloadFunc()">Download</button>
+</div>
+<div *ngIf="!updatingChart ; else chartLoader">
+    <c-chart *ngIf="dataAvailable" type="line" [data]="chartLineData" [options]="chartLineOptions" #chartRef></c-chart>
+    <div *ngIf="!dataAvailable" class="noData">
+        <img src="assets/images/3582365.jpg" alt="">
+    </div>
+</div>
+
+<ng-template #chartLoader>
+    <div class="loader">
+        <c-spinner aria-hidden="true"></c-spinner>
+        Loading...
+    </div>
+</ng-template>

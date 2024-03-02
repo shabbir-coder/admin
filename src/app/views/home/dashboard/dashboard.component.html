@@ -1,0 +1,81 @@
+<div class="fade-in">
+    <h5 class="display-5">{{ greeting | titlecase}}</h5>
+    <c-card>
+      <c-card-body>
+        <div class="container mt-2">
+            <div class="d-flex justify-content-between">
+                <h4>Your Instances <span style="font-size: 14px;">(Tap to view data)</span></h4>
+                <button cButton color="primary" variant="outline" (click)="openModal('new')">Add new instance</button>
+            </div>
+            <div class="divider my-2"></div>
+            <ng-container *ngIf="instancesList?.length; else nodata">
+              <app-instances-list (instanceSelected)="instanceSelected($event)" [instancesList]="instancesList"></app-instances-list>
+            </ng-container>
+            <ng-template #nodata>
+              <h5>No data found</h5>
+            </ng-template>
+        </div>
+      </c-card-body>
+    </c-card>
+    @if(selectedInstance){
+      <c-card class="mt-4">
+        <c-card-body>
+          <div class="container mt-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 [cTextColor]="'primary'">+{{selectedInstance?.number}}</h5>
+              <button cButton (click)="downloadReport(selectedInstance?.instance_id)">Download Report</button>
+            </div>
+
+            <div class="divider my-2"></div>
+            <app-charts [sets]="setsList"></app-charts>
+          </div>
+        </c-card-body>
+      </c-card>
+    }
+</div>
+
+<c-modal id="liveDemoModal" [visible]="visible" size="lg" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Scan QR</h5>
+      <button (click)="handleLiveDemoChange(false)" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-container>
+        <c-row>
+          <c-col>
+            <form cForm [formGroup]="form">
+              <div class="mb-3">
+                <label cLabel for="formControlName">Instance ID</label>
+                <h6>{{newInstanceId}}</h6>
+              </div>
+              <div class="mb-3">
+                <label cLabel for="formControlName">Name</label>
+                <input cFormControl
+                      id="formControlName"
+                      placeholder="Shabbir"
+                      type="text"
+                      formControlName="name"
+                />
+              </div>
+              <div class="mb-3">
+                <label cLabel for="formControlNumber">Number</label>
+                <input cFormControl
+                      id="formControlNumber"
+                      placeholder="910000000000"
+                      type="number"
+                      formControlName="number"
+                />
+              </div>
+            </form>
+            <div class="d-flex justify-content-end">
+              <button class="mx-2" cButton color="primary" variant="outline" (click)="save()">Save</button>
+              <button class="mx-2" cButton color="secondary" variant="outline" (click)="handleLiveDemoChange(false)">Cancel</button>
+            </div>
+          </c-col>
+          <c-col>
+            <img width="100%" src={{QRCode}} alt="">
+          </c-col>
+        </c-row>
+      </c-container>
+    </c-modal-body>
+  </c-modal>

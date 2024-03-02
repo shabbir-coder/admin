@@ -1,0 +1,32 @@
+<div>
+    <table cTable hover>
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" style="width: 40%;">Name</th>
+            <th scope="col" style="width: 30%;">Instance ID</th>
+            <th scope="col" style="width: 15%;">Updated At</th>
+            <th scope="col" style="text-align: center;">Status</th>
+            <th scope="col" style="width: 20%;text-align: center;"><th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data; let $index = index" (click)="selectInstance(item)">
+                <th scope="row">{{$index+1}}</th>
+                <td>
+                    <h6>{{item?.name}}</h6>
+                    <p>{{item?.number}}</p>
+                </td>
+                <td class="align-self-center">{{ item?.instance_id}}</td>
+                <td style="font-size: 14px;">{{ item?.updatedAt | date :'medium'}}</td>
+                <td class="text-center"><c-badge [color]="getBadgeColor(item.isActive)">{{item.isActive?'Active':'In Active'}}</c-badge></td>
+                <td class="text-center">
+                <button cTooltip="delete" cButton class="me-1" size="sm" variant="ghost" color="danger" (click)="deleteItem(item?._id)"
+                
+                >
+                    <svg cIcon name="cil-trash"></svg></button>
+                </td>
+            </tr>
+    </tbody>
+    </table>  
+</div>

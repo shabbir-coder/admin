@@ -1,0 +1,47 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form cForm [formGroup]="registerForm">
+              <h1>Register</h1>
+              <p class="text-medium-emphasis">Create your account</p>
+                <c-input-group class="mb-3" [ngClass]="submit && form['username'].invalid? 'error':''">
+                    <span cInputGroupText>
+                      <svg cIcon name="cilUser"></svg>
+                    </span>
+                    <input autoComplete="name" formControlName="username" cFormControl placeholder="Username" />
+                  </c-input-group>
+              <c-input-group class="mb-3" [ngClass]="submit && form['email'].invalid? 'error':''">
+                <span cInputGroupText>&#64;</span>
+                <input autoComplete="email" formControlName="email" cFormControl placeholder="Email" />
+              </c-input-group>
+              <c-input-group class="mb-3" [ngClass]="submit && form['phoneNo'].invalid? 'error':''">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input autoComplete="phoneNo" formControlName="phoneNo" cFormControl placeholder="Phone no ex: 91 123456790" type="number" />
+              </c-input-group>
+              <c-input-group class="mb-3" [ngClass]="submit && form['password'].invalid? 'error':''">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input autoComplete="new-password" formControlName="password" cFormControl placeholder="Password" type="password" />
+              </c-input-group>
+              <c-input-group class="mb-4" [ngClass]="submit && form['confirmPassword'].invalid? 'error':''">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input autoComplete="new-password" formControlName="confirmPassword" cFormControl placeholder="Repeat password" type="password" />
+              </c-input-group>
+              <div class="d-grid">
+                <button cButton color="success" (click)="register()">Create Account</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

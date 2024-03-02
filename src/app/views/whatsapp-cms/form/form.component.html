@@ -1,0 +1,128 @@
+<div class="fade-in">
+    <c-card>
+        <c-card-body>
+            <div class="container mt-2">
+                <div class="d-flex justify-content-between">
+                    <h4>{{title}}</h4>
+                </div>
+            </div>
+            <div class="divider my-2"></div>
+            <form cForm [formGroup]="setForm">
+                <c-row class="justify-content-around">
+                    <c-col sm="12" md="6" class="mb-3" >
+                       <label cLabel for="setName">Set Name:</label>
+                       <input cFormControl type="text" id="setName" formControlName="setName" />
+                    </c-col>
+                    <c-col sm="12" md="6" class="mb-3">
+                       <label cLabel for="instances">Instances:</label>
+                       <select aria-label="instances" id="instances" cSelect formControlName="instances">
+                        <option>Select your Instance</option>
+                        @for (number of instancesList; track $index) {
+                            <option value="+{{number.isdCode}}{{number.number}}">+{{number.isdCode}} {{number.number}}</option>
+                        }
+                      </select>
+                    </c-col>
+                </c-row>
+                <div class="mb-3">
+                    <label cLabel>Set Data</label>
+                    <button cButton color="primary" variant="outline" class="float-end" (click)="toggleLiveDemo()" cButton>Add</button>
+                    @if( this.setForm.get('setData')?.value?.length ){
+                       
+                        <table cTable hover>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col" style="width: 50%;">Keywords</th>
+                                    <th scope="col" style="width: 30%;">Answer</th>
+                                    <th scope="col" style="width: 10%;">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr *ngFor="let item of setForm.get('setData')?.value;let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td><h6>{{item?.keywords}}</h6>
+                                            <td>{{item?.answer?.message}}</td>
+                                            <td>
+                                                <button
+                                                    cButton color="secondary" variant="ghost"
+                                                    (click)="UpdateSetData(item, i)">
+                                                    <svg cIcon name="cil-pen"></svg>
+                                                </button>
+                                                <button
+                                                    cButton color="danger" variant="ghost"
+                                                    [swal]="{ 
+                                                        title: 'Confirm ?',
+                                                        showCancelButton: true ,
+                                                        confirmButtonColor: '#d33',
+                                                        confirmButtonText: 'Delete',
+                                                        cancelButtonColor:'#3085d6',
+                                                        }"
+                                                    (confirm)="deleteSetData(i)">
+                                                    <svg cIcon  name="cil-trash"></svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                        </table>
+                    }@else{
+                        <h5>No Data Yet !</h5>
+                    }
+                </div>
+                <button cButton color="success" variant="outline" type="submit" (click)="finalSubmit()">Save and Update</button>
+              </form>
+        </c-card-body>
+    </c-card>
+</div>
+
+<c-modal #verticallyCenteredModal alignment="center" id="verticallyCenteredModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <button [cModalToggle]="verticallyCenteredModal.id" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm [formGroup]="setDataForm">
+            <div class="mb-3">
+               <label cLabel for="setName">Keywords:</label>
+               <div style="display: flex;">
+                   <input style="margin-right: 8px;" class="{{!isKeywordValid?'error':''}}" cFormControl type="text" id="setName" formControlName="keywordTyped" (keyup.enter)="addKeyword()" />
+                   <button type="button" cButton (click)="addKeyword()">Add</button>
+                </div>
+                @if (!isKeywordValid) {<span class="hint">{{keywordValidMessage}}</span>}
+            </div>
+
+            <div *ngFor="let keyword of setDataForm.get('keywords')?.value; let i = index" class="chip">
+             {{ keyword }}
+             <span class="close" (click)="removeKeyword(i)">&times;</span>
+           </div>
+            <div formGroupName="answer" >
+                <div class="mb-3">
+                    <label cLabel for="messageType">Message Type</label>
+                    <select cSelect id="messageType" formControlName="messageType">
+                        <option *ngFor="let messageType of messageTypesList" [value]="messageType.id">
+                            {{ messageType.type }}
+                        </option>
+                    </select>
+                </div>
+                <div *ngIf="showMediaFields">
+                    <div class="mb-3">
+                        <label clabel cButton for="mediaFile">Media File:</label>
+                        <input type="file" id="mediaFile" formControlName="mediaFile" class="d-none" />
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label cLabel for="extraButton">Extra Button:</label>
+                        <input cFormControl type="text" id="extraButton" formControlName="extraButton" />
+                    </div> -->
+                  </div>
+                  <div class="mb-3">
+                      <label for="message">Message</label>
+                      <textarea cFormControl id="message" formControlName="message" ></textarea>
+                  </div>
+                </div>
+          </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button [cModalToggle]="verticallyCenteredModal.id" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="addData()">Save</button>
+    </c-modal-footer>
+  </c-modal>

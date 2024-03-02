@@ -1,0 +1,76 @@
+<section class="discussions">
+  <div class="mx-2 my-3">
+    <select class="form-control" aria-label="Default select example" cSelect [formControl]="selectedInstance">
+      <option value="">Select Your Instance</option>
+      <option *ngFor="let instance of instancesList" [value]="instance?.instance_id">{{instance?.name}} ( {{instance?.isActive?'Active':'In Active'}} )</option>
+    </select>
+  </div>
+    <div class="discussion search">
+      <div class="searchbar">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input type="text" placeholder="Search by Name, ITS or number" [formControl]="searchControl"/>
+      </div>
+      <button class="ms-1" cButton color="primary" variant="ghost"  (click)="toggleLiveDemo()">Add</button>
+    </div>
+    <div *ngFor="let contact of contactsList" class="discussion {{selectedContact === contact?._id ?'message-active':''}}" (click)="selectContact(contact)">
+      <div class="photo" id="avatar">
+        <h6 class="avatarText">{{getAvatar(contact?.name)}}</h6>
+        <div class="online"></div>
+      </div>
+      <div class="desc-contact">
+        <h5 class="name">{{contact?.name}} <span class="ITS">( {{contact?.ITS}} )</span></h5>
+        <!-- <p class="message">9 pm at the bar if possible 😳</p> -->
+      </div>
+      <!-- <div class="timer">12 sec</div> -->
+    </div>
+
+  </section>
+
+  <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add new contact</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-alert *ngIf="errorMessage" color="danger" class="d-flex align-items-center">
+        <svg [cIcon]="icons.cilWarning" width="25" title="Shield Icon" >
+        </svg>
+        <div>{{errorMessage}}</div>
+      </c-alert>
+      <form cForm [formGroup]="form">
+        <div class="mb-3">
+          <label cLabel for="Name">Name</label>
+          <input cFormControl
+                 id="Name"
+                 placeholder="John Doe"
+                 type="text"
+                 formControlName="name"
+          />
+        </div>
+        <div class="mb-3">
+          <label cLabel for="ITS">ITS Number</label>
+          <input cFormControl
+                 id="ITS"
+                 placeholder="30XXXXXX"
+                 type="text"
+                 formControlName="ITS"
+          />
+        </div>
+        <div class="mb-3">
+          <label cLabel for="number">Whatsapp Number</label>
+          <input cFormControl
+                 id="number"
+                 placeholder="91805XXXXXXX"
+                 type="text"
+                 formControlName="number"
+          />
+        </div>
+      </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="submitForm()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

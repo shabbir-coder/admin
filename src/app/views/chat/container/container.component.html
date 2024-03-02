@@ -1,0 +1,14 @@
+<div class="fade-in">
+    <c-card>
+      <c-card-body>
+        <c-container>
+            <c-row class="h-75">
+              <c-col sm="12" md="4">
+                <app-contacts [instancesList]="instancesList" (instanceSelected)="instanceSelected($event)" (contactChange)="contactChange($event)"></app-contacts>
+              </c-col>
+              <c-col sm="12" md="8"><app-messages [selectedInstance]="selectedInstance" [selectedContact]="selectedContact"></app-messages></c-col>
+            </c-row>
+          </c-container>
+      </c-card-body>
+    </c-card>
+</div>

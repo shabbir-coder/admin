@@ -1,0 +1,17 @@
+.chart-wrapper {
+    height: 450px;
+}
+
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    white-space: nowrap;
+    border-radius: 5px;
+    padding: 2px 10px;
+}
+
+.noData{
+    display: flex;
+    justify-content: center;
+    img{
+        height: 475px;
+    }
+}

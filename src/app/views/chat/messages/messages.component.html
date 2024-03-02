@@ -1,0 +1,32 @@
+<section class="chat">
+    <div class="header-chat">
+      <h5 class="name">{{ContactData?.name||'Select Contact'}}</h5>
+      <p class="m-0 p-0">&nbsp;{{ContactData?.ITS ? '( '+ ContactData?.ITS + ' )':''}}</p>
+      <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
+    </div>
+    <div class="messages-chat">
+      <ng-container *ngFor="let message of messages">
+        @if(message.recieverId != ContactData?._id){
+          <div class="message">
+            <p class="text">{{message?.text}}</p>
+            <small style="font-size: 10px;">{{message?.createdAt | date:'short'}}</small>
+          </div>
+        }@else {
+          <div class="message">
+            <div class="response">
+              <p class="text">{{message?.text}}</p>
+              <small style="font-size: 10px;">{{message?.createdAt | date:'short'}}</small>
+            </div>
+          </div>
+        }
+      
+      </ng-container>
+    </div>
+    <div class="footer-chat">
+      <i class="icon fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
+      <input type="text" class="write-message" [formControl]="messageText" placeholder="Type your message here">
+      <span class="icon send clickable" cInputGroupText (click)="sendMessage()">
+          <svg cIcon name="cil-paper-plane"></svg>
+      </span>
+    </div>
+  </section>
