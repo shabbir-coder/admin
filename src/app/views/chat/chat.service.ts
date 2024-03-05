@@ -33,9 +33,10 @@ export class ChatService {
     return this.http.post(url, data, { headers: this.getHeaders() });
   }
 
-  getContacts(searchText: any=''): Observable<any> {
+  getContacts(params:any): Observable<any> {
+    console.log(params)
     const url = `${this.apiUrl}/chats/getContacts`;
-    return this.http.get(url, { headers: this.getHeaders(), params:{searchText} });
+    return this.http.get(url, { headers: this.getHeaders(), params });
   }
 
   sendMessage(data: any): Observable<any> {

@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DomsanitizationPipe } from '../shared/domsanitization.pipe'
+import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { DomsanitizationPipe } from '../shared/domsanitization.pipe'
     SpinnerModule,
     ModalModule,
     FormModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbDatepickerModule
   ]
 })
 export class HomeModule { }

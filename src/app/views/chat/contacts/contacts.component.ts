@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {ChatService} from '../chat.service'
-import { BehaviorSubject, debounceTime } from 'rxjs';
+import { BehaviorSubject, debounceTime, switchMap } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { cilCheck , cilWarning} from '@coreui/icons';
 
@@ -22,11 +22,17 @@ export class ContactsComponent implements OnInit{
   public visible = false;
   searchControl: FormControl = new FormControl('');
   selectedInstance: FormControl = new FormControl('');
-  
+  refreshData$= new BehaviorSubject(null)
+
+  itemSize = 10;
+  totalItems = 10;
   errorMessage=''
   icons = { cilCheck, cilWarning };
 
-
+  pageParams={
+    page: 1,
+    limit: 10
+  }
   ngOnInit(): void {
       this.form = this.fb.group({
         name:['', Validators.required],
@@ -72,14 +78,13 @@ export class ContactsComponent implements OnInit{
   }
 
   getAllContacts(searchtext?: any){
-    this.chatService.getContacts(searchtext).subscribe(
-      (res: any)=>{
+      this.refreshData$.pipe(
+        switchMap(() => this.chatService.getContacts({searchtext,...this.pageParams}))
+      ).subscribe((res: any) => {
         console.log(res);
-        this.contactsList = res.data
-      },(err)=>{
-        console.log(err)
-        this.contactsList =[]
-      })
+        this.contactsList = res.data;
+        this.totalItems = res.total;
+      });
   }
 
   getAvatar(name: any){
@@ -89,5 +94,10 @@ export class ContactsComponent implements OnInit{
   selectContact(contact: any){
     this.selectedContact = contact?._id
     this.contactChange.emit(contact)
+  }
+
+  pageChange(event: any){
+    this.pageParams.page = event;
+    this.refreshData$.next(null);
   }
 }

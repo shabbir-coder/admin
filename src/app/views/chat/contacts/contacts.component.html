@@ -12,7 +12,7 @@
       </div>
       <button class="ms-1" cButton color="primary" variant="ghost"  (click)="toggleLiveDemo()">Add</button>
     </div>
-    <div *ngFor="let contact of contactsList" class="discussion {{selectedContact === contact?._id ?'message-active':''}}" (click)="selectContact(contact)">
+    <div *ngFor="let contact of contactsList | paginate: { itemsPerPage: itemSize, currentPage: pageParams.page ,totalItems};" class="discussion {{selectedContact === contact?._id ?'message-active':''}}" (click)="selectContact(contact)">
       <div class="photo" id="avatar">
         <h6 class="avatarText">{{getAvatar(contact?.name)}}</h6>
         <div class="online"></div>
@@ -23,6 +23,8 @@
       </div>
       <!-- <div class="timer">12 sec</div> -->
     </div>
+
+    <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>  
 
   </section>
 
