@@ -8,12 +8,32 @@
             </div>
             <div class="divider my-2"></div>
             <form cForm [formGroup]="setForm">
-                <c-row class="justify-content-around">
+                <c-row class="flex-column">
                     <c-col sm="12" md="6" class="mb-3" >
-                       <label cLabel for="setName">Set Name:</label>
-                       <input cFormControl type="text" id="setName" formControlName="setName" />
+                       <label cLabel for="input1">Set Name:</label>
+                       <input cFormControl type="text" id="input1" formControlName="setName" />
                     </c-col>
-                    <c-col sm="12" md="6" class="mb-3">
+                    <c-col sm="12" md="6" class="mb-3" >
+                        <label cLabel for="input2">ITS verification Passed:</label>
+                        <input cFormControl type="text" id="input2" formControlName="ITSverificationMessage" />
+                     </c-col>
+                     <c-col sm="12" md="6" class="mb-3" >
+                        <label cLabel for="input3">ITS verification Failed:</label>
+                        <input cFormControl type="text" id="input3" formControlName="ITSverificationFailed" />
+                     </c-col>
+                     <c-col sm="12" md="6" class="mb-3" >
+                        <label cLabel for="input4">Number Verification:</label>
+                        <input cFormControl type="text" id="input4" formControlName="NumberVerifiedMessage" />
+                     </c-col>
+                     <c-col sm="12" md="6" class="mb-3" >
+                         <label cLabel for="input5">Acceptance Response:</label>
+                         <input cFormControl type="text" id="input5" formControlName="AcceptanceMessage" />
+                      </c-col>
+                      <c-col sm="12" md="6" class="mb-3" >
+                         <label cLabel for="input6">Rejection Response:</label>
+                         <input cFormControl type="text" id="input6" formControlName="RejectionMessage" />
+                      </c-col>
+                    <!-- <c-col sm="12" md="6" class="mb-3">
                        <label cLabel for="instances">Instances:</label>
                        <select aria-label="instances" id="instances" cSelect formControlName="instances">
                         <option>Select your Instance</option>
@@ -21,7 +41,7 @@
                             <option value="+{{number.isdCode}}{{number.number}}">+{{number.isdCode}} {{number.number}}</option>
                         }
                       </select>
-                    </c-col>
+                    </c-col> -->
                 </c-row>
                 <div class="mb-3">
                     <label cLabel>Set Data</label>

@@ -55,11 +55,9 @@ export class SetService {
 
   getQrInstance(): Observable<any>{
     const url = `${this.apiUrl}/instance`;
-    console.log('hitted')
     this.http.get(url, { headers: this.getHeaders() }).subscribe();  
     let observable = new Observable<any>(observer => {
       this.socket.on('qr', (data) => {
-        console.log(data)
         observer.next(data);
       });
       return () => { this.socket.disconnect(); };  

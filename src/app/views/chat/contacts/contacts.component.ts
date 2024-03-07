@@ -77,11 +77,11 @@ export class ContactsComponent implements OnInit{
     )
   }
 
-  getAllContacts(searchtext?: any){
+  getAllContacts(searchtext=''){
       this.refreshData$.pipe(
         switchMap(() => this.chatService.getContacts({searchtext,...this.pageParams}))
       ).subscribe((res: any) => {
-        console.log(res);
+        // console.log(res);
         this.contactsList = res.data;
         this.totalItems = res.total;
       });

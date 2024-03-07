@@ -73,9 +73,10 @@ export class ApiService {
     return this.http.delete( url, { headers: this.getHeaders() });
   }
 
-  downloadReport(instanceId: any ,params?: any){
+  downloadReport(instanceId: any ,range?: any){
+    console.log(instanceId, range)
     const url = `${this.apiUrl}/chats/getreport/${instanceId}`;
-    return this.http.get<Blob>( url, { params:params, responseType: 'blob' as 'json'  });
+    return this.http.get<Blob>( url, { params:range, responseType: 'blob' as 'json'  });
   }
 
 }

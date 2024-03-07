@@ -58,10 +58,16 @@ export class FormComponent implements OnInit{
   
   initializeForm(): void {
     this.setForm = this.formBuilder.group({
-      setName: ['', Validators.required],
-      status: ['', Validators.required],
-      instanceStatus: ['', Validators.required],
-      instances: [[],Validators.required],
+      setName : ['', Validators.required],
+      status : ['', Validators.required],
+      ITSverificationMessage : ['', Validators.required],
+      ITSverificationFailed : ['', Validators.required],
+      NumberVerifiedMessage : ['', Validators.required],
+      AcceptanceMessage : ['', Validators.required],
+      RejectionMessage : ['', Validators.required],
+
+      // instanceStatus: ['', Validators.required],
+      // instances: [[],Validators.required],
       setData: [[],Validators.minLength(1)]
     });
   }
@@ -134,7 +140,7 @@ export class FormComponent implements OnInit{
       })
     }
 
-  finalSubmit( status='pending' ){
+  finalSubmit( status='active' ){
     console.log("setForm", this.setForm)
     this.setForm.patchValue({status})
     let obs

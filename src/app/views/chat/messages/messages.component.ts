@@ -82,7 +82,7 @@ export class MessagesComponent implements OnInit, OnChanges {
 
   subscribeToMessages(instanceId: any){
     this.chatService.socketListen(instanceId).pipe().subscribe((message: string) => {
-      console.log(message)
+      // console.log(message)
       this.messages.push(message);
     })
   }

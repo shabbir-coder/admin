@@ -31,17 +31,6 @@ export class DashboardComponent implements OnInit{
   selectedInstance:any
   selectedSet:any
 
-  setsList = [
-    { _id:'1' , setName: 'Set A',status:'approved', used:5, createdAt: new Date(), updatedAt: new Date() },
-    { _id:'2' , setName: 'Set B',status:'pending', used:8,createdAt: new Date(), updatedAt: new Date() },
-    { _id:'3' , setName: 'Set C',status:'draft', used:10, createdAt: new Date(), updatedAt: new Date() },
-    { _id:'4' , setName: 'Set D',status:'approved', used:15, createdAt: new Date(), updatedAt: new Date() },
-    { _id:'5' , setName: 'Set E',status:'approved', used:10, createdAt: new Date(), updatedAt: new Date() },
-    { _id:'6' , setName: 'Set F',status:'draft', used:7, createdAt: new Date(), updatedAt: new Date() },
-    { _id:'7' , setName: 'Set G',status:'rejected', used:2, createdAt: new Date(), updatedAt: new Date() },
-  ];
-
-
   ngOnInit(): void {
       this.form = this.fb.group({
         name: ['', Validators.required],
@@ -133,8 +122,18 @@ export class DashboardComponent implements OnInit{
     )
   }
 
-  downloadReport(instanceId: any){
-    this.apiService.downloadReport(instanceId).subscribe(
+  formatDate(year:any, month:any, day:any) {
+    // Pad the month and day with a leading zero if necessary
+    const formattedMonth = month.toString().padStart(2, '0');
+    const formattedDay = day.toString().padStart(2, '0');
+    return `${year}-${formattedMonth}-${formattedDay}`;
+}
+
+  downloadReport(range?:any ){
+    const fromDate = this.formatDate(this.fromDate.year, this.fromDate.month, this.fromDate.day);
+    const toDate = this.formatDate(this.toDate.year, this.toDate.month, this.toDate.day);
+
+    this.apiService.downloadReport(this.selectedInstance.instance_id, {fromDate, toDate}).subscribe(
       (data: Blob) => {
         // Create a new blob object
         const blob = new Blob([data], { type: 'text/csv' });
@@ -164,7 +163,7 @@ export class DashboardComponent implements OnInit{
 
 	hoveredDate: NgbDate | null = null;
 	fromDate: NgbDate = this.calendar.getToday();
-	toDate: NgbDate | null = this.calendar.getNext(this.fromDate, 'd', 10);
+	toDate: NgbDate| any = this.calendar.getNext(this.fromDate, 'd', 10);
 
 	onDateSelection(date: NgbDate) {
 		if (!this.fromDate && !this.toDate) {
