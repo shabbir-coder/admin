@@ -56,6 +56,7 @@ export class InstancesListComponent implements OnInit, OnChanges{
               icon: "success",
               timer: 1500
             })
+            this.selectInstance(null)
             this.apiService.refreshData$.next(null);
           }
         )

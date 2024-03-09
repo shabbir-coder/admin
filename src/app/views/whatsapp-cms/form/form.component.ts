@@ -169,7 +169,7 @@ export class FormComponent implements OnInit{
       return
     }
     const value = this.setForm.get('setData')?.value
-    console.log(this.updateIndex)
+    console.log('updateIndex', this.updateIndex)
     if(typeof this.updateIndex === 'number'){
       value[this.updateIndex]=this.setDataForm.value
     }else{
@@ -180,6 +180,7 @@ export class FormComponent implements OnInit{
 
     this.setForm.patchValue({setData:value})
     console.log(this.setForm.value)
+    this.updateIndex=null
     this.handleLiveDemoChange(false)
   }
 

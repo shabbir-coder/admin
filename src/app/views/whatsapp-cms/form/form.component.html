@@ -10,9 +10,13 @@
             <form cForm [formGroup]="setForm">
                 <c-row class="flex-column">
                     <c-col sm="12" md="6" class="mb-3" >
-                       <label cLabel for="input1">Set Name:</label>
+                       <label cLabel for="input1">Campaign Name:</label>
                        <input cFormControl type="text" id="input1" formControlName="setName" />
                     </c-col>
+                    <c-col sm="12" md="6" class="mb-3" >
+                        <label cLabel for="input4">Number Verification:</label>
+                        <input cFormControl type="text" id="input4" formControlName="NumberVerifiedMessage" />
+                     </c-col>
                     <c-col sm="12" md="6" class="mb-3" >
                         <label cLabel for="input2">ITS verification Passed:</label>
                         <input cFormControl type="text" id="input2" formControlName="ITSverificationMessage" />
@@ -20,10 +24,6 @@
                      <c-col sm="12" md="6" class="mb-3" >
                         <label cLabel for="input3">ITS verification Failed:</label>
                         <input cFormControl type="text" id="input3" formControlName="ITSverificationFailed" />
-                     </c-col>
-                     <c-col sm="12" md="6" class="mb-3" >
-                        <label cLabel for="input4">Number Verification:</label>
-                        <input cFormControl type="text" id="input4" formControlName="NumberVerifiedMessage" />
                      </c-col>
                      <c-col sm="12" md="6" class="mb-3" >
                          <label cLabel for="input5">Acceptance Response:</label>
