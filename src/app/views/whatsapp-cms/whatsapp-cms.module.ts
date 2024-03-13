@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CmsRoutingModule } from './cms-routing.module';
 import {CmsHomeComponent} from './cms-home/cms-home.component';
 import { BadgeModule, ButtonModule, CardModule, FormModule, GridModule, ModalModule, TableModule, TooltipModule, UtilitiesModule } from '@coreui/angular';
@@ -38,5 +38,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     ModalModule,
     SweetAlert2Module.forRoot()
   ],
+  providers:[DatePipe]
 })
 export class WhatsappCmsModule { }

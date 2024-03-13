@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SetService } from '../service/set.service';
+import { environment } from 'src/environment/environment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-form',
@@ -20,13 +22,7 @@ export class FormComponent implements OnInit{
 
   messageTypesList = [
     { id:1, type:'Text'},
-    { id:2, type:'Text with Media'},
-    // { id:3, type:'Button'},
-    // { id:4, type:'Button with Media'},
-    // { id:5, type:'Lists/Menu'},
-    // { id:6, type:'Lists/Menu with Media'},
-    // { id:7, type:'Poll'},
-    // { id:8, type:'Poll with Media'}
+    { id:2, type:'Media'},
   ]
   title='Auto Reply Configuration'
   setForm!: FormGroup;
@@ -34,13 +30,21 @@ export class FormComponent implements OnInit{
   showMediaFields=false
   public visible = false;
   isKeywordValid = true;
+  dateNow
   setId = '';
   constructor(
     private formBuilder: FormBuilder,
     private setService: SetService,
     private router: Router,
-    private route: ActivatedRoute
-  ){}
+    private route: ActivatedRoute,
+    private datePipe: DatePipe
+  ){
+    const dateNow = new Date();
+    this.dateNow = this.datePipe.transform(dateNow, 'yyyy-MM-dd HH:mm');
+  }
+
+  selectedFile: any;
+
 
   ngOnInit(): void {
     this.initializeForm();
@@ -65,7 +69,8 @@ export class FormComponent implements OnInit{
       NumberVerifiedMessage : ['', Validators.required],
       AcceptanceMessage : ['', Validators.required],
       RejectionMessage : ['', Validators.required],
-
+      StartingTime : ['', Validators.required],
+      EndingTime : ['', Validators.required],
       // instanceStatus: ['', Validators.required],
       // instances: [[],Validators.required],
       setData: [[],Validators.minLength(1)]
@@ -77,10 +82,10 @@ export class FormComponent implements OnInit{
       keywords: [[],Validators.required],
       keywordTyped : [''],
       answer: this.formBuilder.group({
-        message: ['', Validators.required],
+        message: [''],
         messageType: ['1', Validators.required],
         timeStamp: [''],
-        mediaFile: [''],
+        mediaFile: '',
         // extraButton: [''],
       }),
     });
@@ -103,7 +108,6 @@ export class FormComponent implements OnInit{
     });
 
     this.setDataForm.get('keywordTyped')?.valueChanges.subscribe((value) => {
-      console.log('sssssssssssss', this.setForm.get('setData')?.value?.length)
       if(value && this.setForm.get('setData')?.value?.length<1){
         this.checkKeyword()
       }
@@ -112,8 +116,10 @@ export class FormComponent implements OnInit{
 
   fillForm(set: any){
     this.setForm.patchValue(
-      set
-    )
+      {...set,
+      StartingTime : this.datePipe.transform(new Date(set.StartingTime), 'yyyy-MM-dd HH:mm'),
+      EndingTime : this.datePipe.transform(new Date(set.EndingTime), 'yyyy-MM-dd HH:mm')
+      })
   }
     // Function to add keyword to the list
     addKeyword() {
@@ -159,6 +165,11 @@ export class FormComponent implements OnInit{
       }
     )
 
+  }
+
+  timeValidator(formGroup: FormGroup) {
+    const { startTime, endTime } = formGroup.value;
+    return endTime > startTime ? null : { timeInvalid: true };
   }
 
   setDataFormSubmitted=false
@@ -225,6 +236,20 @@ export class FormComponent implements OnInit{
     console.log('data', data);
     this.visible = !this.visible;
   }
+  mediaFile : any
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+    const formData = new FormData();
+    formData.append('picture', this.selectedFile);
+    this.setService.saveFile(formData).subscribe(
+      (res: any)=> {
+        this.mediaFile=environment.apiUrl.replace('api','')+res.filePath
+        this.setDataForm.get('answer')!.get('mediaFile')!.patchValue(this.mediaFile);
+      })
+  }
+
+
 }
 
 export interface Set {

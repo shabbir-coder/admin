@@ -13,7 +13,7 @@ export class ChatService {
   constructor(private http: HttpClient) { }
 
   private apiUrl = environment.apiUrl
-  private socket = io('http://localhost:3000');
+  private socket = io('http://5.189.156.200:82/nodejs');
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken'); // Replace with your actual authorization token

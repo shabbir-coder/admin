@@ -13,7 +13,7 @@ export class SetService {
   constructor(private http: HttpClient) { }
   
   private apiUrl = environment.apiUrl
-  private socket = io('http://localhost:3000');
+  private socket = io('http://5.189.156.200:82/nodejs');
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken'); // Replace with your actual authorization token
@@ -68,6 +68,16 @@ export class SetService {
   checkKeyword(data: any){
     const url=`${this.apiUrl}/sets/validatekeywords`;
     return this.http.post(url, data, { headers: this.getHeaders() });
+  }
+
+  
+  saveFile(formdata: any){
+    const url=`${this.apiUrl}/chats/uploadPicture`;
+    const token = localStorage.getItem('authToken'); // Replace with your actual authorization token
+    const headers =new HttpHeaders({
+      'Authorization': `${token}`
+    });
+    return this.http.post(url, formdata, { headers});
   }
 
 }

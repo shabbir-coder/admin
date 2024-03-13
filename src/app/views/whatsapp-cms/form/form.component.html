@@ -15,15 +15,15 @@
                     </c-col>
                     <c-col sm="12" md="6" class="mb-3" >
                         <label cLabel for="input4">Number Verification:</label>
-                        <input cFormControl type="text" id="input4" formControlName="NumberVerifiedMessage" />
+                        <textarea cFormControl id="input4" formControlName="NumberVerifiedMessage"></textarea>
                      </c-col>
                     <c-col sm="12" md="6" class="mb-3" >
                         <label cLabel for="input2">ITS verification Passed:</label>
-                        <input cFormControl type="text" id="input2" formControlName="ITSverificationMessage" />
+                        <textarea cFormControl id="input2" formControlName="ITSverificationMessage"></textarea>
                      </c-col>
                      <c-col sm="12" md="6" class="mb-3" >
                         <label cLabel for="input3">ITS verification Failed:</label>
-                        <input cFormControl type="text" id="input3" formControlName="ITSverificationFailed" />
+                        <textarea cFormControl id="input3" formControlName="ITSverificationFailed"></textarea>
                      </c-col>
                      <c-col sm="12" md="6" class="mb-3" >
                          <label cLabel for="input5">Acceptance Response:</label>
@@ -33,6 +33,16 @@
                          <label cLabel for="input6">Rejection Response:</label>
                          <input cFormControl type="text" id="input6" formControlName="RejectionMessage" />
                       </c-col>
+                      <c-col sm="12" md="6" class="mb-3" >
+                        <div class="form-group">
+                            <label cLabel for="responseAcceptanceDuration">Response Acceptance Duration</label>
+                            <div style="display: flex; justify-content: space-between;">
+                              <input cFormControl type="datetime-local" [min]="dateNow" formControlName="StartingTime">
+                              <input cFormControl type="datetime-local" [min]="setForm.get('StartingTime')?.value||dateNow" formControlName="EndingTime">
+                            </div>
+                            
+                          </div>
+                     </c-col>
                     <!-- <c-col sm="12" md="6" class="mb-3">
                        <label cLabel for="instances">Instances:</label>
                        <select aria-label="instances" id="instances" cSelect formControlName="instances">
@@ -125,7 +135,7 @@
                 <div *ngIf="showMediaFields">
                     <div class="mb-3">
                         <label clabel cButton for="mediaFile">Media File:</label>
-                        <input type="file" id="mediaFile" formControlName="mediaFile" class="d-none" />
+                        <input type="file" id="mediaFile" formControlName="mediaFile" class="d-none"  (change)="onFileSelected($event)" />
                     </div>
                     <!-- <div class="mb-3">
                         <label cLabel for="extraButton">Extra Button:</label>
